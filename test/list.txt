@@ -1,0 +1,17 @@
+ffmpeg -list_devices true -f dshow -i dummy
+#get the video name "Built-in iSight"
+
+ffmpeg -y -loglevel warning -f dshow -i video="Built-in iSight" -vf crop=640:480:136:0 -r 30 -s  640x480 -threads 2 -vcodec libx264  -f flv rtmp://192.168.139.117/myapp/mystream
+#ffmpeg -y -loglevel verbose -f dshow -i video="Built-in iSight" -vf crop=640:480:136:0 -r 30 -s  640x480 -threads 2 -vcodec copy -acodec copy  -f flv rtmp://192.168.139.117/myapp/mystream
+
+
+ffmpeg -re -i ./emacs.mp4 -vcodec copy -acodec copy -f flv rtmp://192.168.139.117/hls/mystream
+#ffmpeg -y -loglevel verbose -f dshow -i video="Built-in iSight"  -vcodec copy -acodec copy  rtmp://192.168.139.117/hls/mystream
+ffmpeg -loglevel verbose -re -i ./emacs.mp4  -f flv rtmp://192.168.139.117/myapp/mystream
+
+ffmpeg -f dshow -i video="Built-in iSight" -vcodec libx264 -preset:v ultrafast -tune:v zerolatency -s  640x480 -f flv rtmp://192.168.139.117/hls/mystream  
+ffmpeg -f dshow -i video="Built-in iSight" -vcodec libx264  -s  640x480 -f flv rtmp://192.168.139.117/hls/mystream  
+
+ffplay -max_delay 1 "rtmp://192.168.139.117/hls/mystream live=1" 
+
+http://blog.csdn.net/leixiaohua1020/article/details/38284961
